@@ -17,7 +17,9 @@ function displayItems() {
 function onAddItemSubmit(e) {
   e.preventDefault();
 
-  const newItem = itemInput.value;
+  itemValue = itemInput.value;
+  const newItem =
+    itemValue.charAt(0).toUpperCase() + itemValue.slice(1).toLowerCase();
 
   if (newItem === "") {
     alert("Please add an item.");
@@ -33,6 +35,11 @@ function onAddItemSubmit(e) {
     itemToEdit.remove();
 
     isEditMode = false;
+  } else {
+    if (checkIfItemExist(newItem)) {
+      alert("That item already exist");
+      return;
+    }
   }
 
   // Create item DOM element
@@ -119,6 +126,11 @@ function onClickItem(e) {
   } else {
     setItemToEdit(listItem);
   }
+}
+
+function checkIfItemExist(item) {
+  const itemsFromStorage = getItemsFromStorage();
+  return itemsFromStorage.includes(item);
 }
 
 function setItemToEdit(item) {
